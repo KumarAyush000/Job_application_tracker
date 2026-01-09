@@ -19,8 +19,24 @@ def load_json_file():
             
         return data
     except FileNotFoundError:
-        logging.error("The file 'storage.json' was not found.")
+        logging.error("The file 'storage.json' was not found. Creating a new default structure.")
+        
+        # if file not exists creating a default empty structure
+        
+        default_structure = {
+            "candidate": None,
+            "skills": [],
+            "applications":[] 
+        }
+        
+        with open(filename, 'w') as file:
+            json.dump(default_structure, file, indent=4)
+            
+        return default_structure
+    
     except json.JSONDecodeError as e:
         logging.error(f"Failed to decode JSON: {e}")
         
+    
+    
     

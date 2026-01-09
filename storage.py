@@ -1,8 +1,13 @@
 import json
-import sys
+import logging
 filename = "storage.json"
 
-sys.stderr = open("error_log.txt", 'w', buffering=1)
+# Configuring logging to write to a file
+logging.basicConfig(
+    filename='app.log', 
+    level=logging.ERROR,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 def load_json_file():
     """
@@ -11,10 +16,11 @@ def load_json_file():
     try:
         with open(filename, 'r') as file:
             data = json.load(file)
+            
         return data
     except FileNotFoundError:
-        print(f"Error: The file '{filename}' was not found.", file=sys.stderr)
-    except json.JSONDecodeError:
-        print(f"Error: Could not decode JSON from the file '{filename}'.", file=sys.stderr)
-    
+        logging.error("The file 'storage.json' was not found.")
+    except json.JSONDecodeError as e:
+        logging.error(f"Failed to decode JSON: {e}")
+        
     

@@ -1,5 +1,5 @@
 import storage
-
+import candidate_manager
 def start_app():
     # 1. Load the data (storage.py handles disk details)
     data = storage.load_json_file()
@@ -10,7 +10,7 @@ def start_app():
         # PATH A: The "fresh start" flow
         print("CANDIDATE CHECK: Missing (None)")
         print("ACTION: Starting onboarding process...")
-        # setup_new_candidate(data)
+        candidate_manager.onboard_candidate(data)
     else:
         # PATH B: The "resume" flow
         print(f"CANDIDATE CHECK: Present ({data['candidate']})")

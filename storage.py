@@ -36,6 +36,22 @@ def load_json_file():
     except json.JSONDecodeError as e:
         logging.error(f"Failed to decode JSON: {e}")
         
+
+def save_json_file(data):
+    """
+    Accepts the full data object and overwrites the storage file safely.
+    """
+    try:
+        with open(filename, 'w') as file:
+            json.dump(data, file, indent=4)
+        
+    except (OSError, IOError) as e:
+        # Logs physical disk errors (e.g., permission denied, disk full)
+        logging.error(f"Reliability Error: Could not write to {filename}. Details: {e}")
+        
+    except Exception as e:
+        logging.error(f"Unexpected Write Failure: {e}")
+        
     
     
     

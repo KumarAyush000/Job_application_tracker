@@ -22,7 +22,6 @@ def load_json_file():
         logging.error("The file 'storage.json' was not found. Creating a new default structure.")
         
         # if file not exists creating a default empty structure
-        
         default_structure = {
             "candidate": None,
             "skills": [],

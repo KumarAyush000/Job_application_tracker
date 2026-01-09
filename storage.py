@@ -2,7 +2,7 @@ import json
 import sys
 filename = "storage.json"
 
-sys.stderr = open("error_log.txt", 'w')
+sys.stderr = open("error_log.txt", 'w', buffering=1)
 
 def load_json_file():
     """

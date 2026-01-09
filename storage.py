@@ -5,7 +5,7 @@ filename = "storage.json"
 # Configuring logging to write to a file
 logging.basicConfig(
     filename='app.log', 
-    level=logging.ERROR,
+    level=logging.ERROR, # logging for ERROR (40)
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 

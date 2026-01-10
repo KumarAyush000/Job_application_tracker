@@ -33,7 +33,7 @@ def start_app():
             print("Exiting Dashboard...")
             break
         else:
-            print("Invalid choise. Please select 1 or 2.")
+            print("Invalid choice. Please select 1 or 2.")
 
 if __name__ == "__main__":
     start_app()

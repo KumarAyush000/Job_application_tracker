@@ -1,4 +1,5 @@
 import storage
+import validators
 
 def manage_skills(data):
     """Entry point for skill-related actions."""
@@ -42,7 +43,7 @@ def add_skill(data):
     skills = data.get("skills", [])
     
     # empty input check
-    if not new_skill:
+    if validators.empty_input_checker(new_skill):
         print("Input can not be empty")
         return
 
@@ -72,7 +73,7 @@ def edit_skill(data):
     skill_to_edit = input("Enter the index number of the skill you want to edit: ").strip()
     
     # empty input check
-    if not skill_to_edit:
+    if validators.empty_input_checker(skill_to_edit):
         print("Index can not be empty.")
         return
     
@@ -82,7 +83,7 @@ def edit_skill(data):
           
           if 0 < skill_to_edit <= len(skills):
               new_skill_name = input("Enter the new skill name: ").strip().lower()
-              if not new_skill_name:
+              if validators.empty_input_checker(new_skill_name):
                   print("Skill name can not be empty.")
                   return
               
@@ -118,7 +119,7 @@ def delete_skill(data):
     skill_to_delete = input("Enter the index number of the skill you want to delete: ").strip()
     
     # empty input check
-    if not skill_to_delete:
+    if validators.empty_input_checker(skill_to_delete):
         print("Index can not be empty.")
         return
     

@@ -105,11 +105,51 @@ def edit_skill(data):
     else:
         print("Please enter a correct input for index.")
     
-    
-       
-
-    
+        
     
 def delete_skill(data):
-    pass
+    """Prompts, validates, and deletes an existing skill."""
+    skills = data.get("skills", [])
     
+    if not isinstance(skills, list) or not skills:
+        print("Your skills list is currently empty or invalid. Nothing to delete.")
+        return
+    
+    skill_to_delete = input("Enter the index number of the skill you want to delete: ").strip()
+    
+    # empty input check
+    if not skill_to_delete:
+        print("Index can not be empty.")
+        return
+    
+    
+    if skill_to_delete.isdigit():
+        skill_to_delete = int(skill_to_delete)
+          
+    
+        if 0 < skill_to_delete <= len(skills):
+            current_index = skill_to_delete -1
+            skill_name = skills[current_index]
+            # confirmation
+            confirmation = input(f"Are you sure you want to delete this skill: {skill_name}. Type: ('Y' for yes OR 'N' for no): ").strip().lower()
+            
+            if confirmation == 'n':
+                print("Exiting the deletion process...")
+                return
+            elif confirmation == 'y':
+                # deletion
+                skills.pop(current_index)
+                
+                # save
+                storage.save_json_file(data)
+                
+                print(f"Success: {skill_name} has been deleted.")
+                
+            else:
+                print("Invalid input for the confirmation.")
+                return
+                
+        else:
+              print(f"Index out of range. Choose between 1 and {len(skills)}.")
+    else:
+        print("Please enter a correct input for index.")

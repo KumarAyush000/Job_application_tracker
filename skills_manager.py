@@ -29,7 +29,7 @@ def manage_skills(data):
 def list_skills(data):
     """Displays current skills from the data object."""
     skills = data.get("skills", [])
-    if not skills:
+    if validators.empty_list_checker(skills):
         print("Your skills list is currently empty.")
     else:
         print("Your Skills:")
@@ -40,8 +40,6 @@ def list_skills(data):
 def add_skill(data):
     """Prompts, validates, and adds a unique skill."""
     new_skill = input("Enter the skill to add: ").strip().lower()
-    skills = data.get("skills", [])
-    
     # empty input check
     if validators.empty_input_checker(new_skill):
         print("Input can not be empty")
@@ -66,7 +64,7 @@ def edit_skill(data):
     """Prompts, validates, and edits an existing skill."""
     skills = data.get("skills", [])
     
-    if not isinstance(skills, list) or not skills:
+    if not isinstance(skills, list) or validators.empty_list_checker(skills):
         print("Your skills list is currently empty or invalid. Nothing to edit.")
         return
     
@@ -112,7 +110,7 @@ def delete_skill(data):
     """Prompts, validates, and deletes an existing skill."""
     skills = data.get("skills", [])
     
-    if not isinstance(skills, list) or not skills:
+    if not isinstance(skills, list) or validators.empty_list_checker(skills):
         print("Your skills list is currently empty or invalid. Nothing to delete.")
         return
     

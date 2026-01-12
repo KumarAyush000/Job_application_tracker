@@ -9,3 +9,9 @@ def empty_input_checker(name):
         return True
     else:
         return False
+    
+def empty_list_checker(lst):
+    if not lst:
+        return True
+    else:
+        return False

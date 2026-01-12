@@ -75,10 +75,8 @@ def edit_skill(data):
         print("Index can not be empty.")
         return
     
-    
-    if skill_to_edit.isdigit():
-          skill_to_edit = int(skill_to_edit)
-          
+    skill_to_edit = validators.to_int(skill_to_edit)
+    if skill_to_edit is not None:
           if 0 < skill_to_edit <= len(skills):
               new_skill_name = input("Enter the new skill name: ").strip().lower()
               if validators.empty_input_checker(new_skill_name):
@@ -121,11 +119,8 @@ def delete_skill(data):
         print("Index can not be empty.")
         return
     
-    
-    if skill_to_delete.isdigit():
-        skill_to_delete = int(skill_to_delete)
-          
-    
+    skill_to_delete = validators.to_int(skill_to_delete)
+    if skill_to_delete is not None:
         if 0 < skill_to_delete <= len(skills):
             current_index = skill_to_delete -1
             skill_name = skills[current_index]

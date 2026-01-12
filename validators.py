@@ -15,3 +15,12 @@ def empty_list_checker(lst):
         return True
     else:
         return False
+    
+def to_int(input_string):
+    # on success -> int
+    if input_string.isdigit():
+        input_string = int(input_string)
+        return input_string
+    # on failure -> none
+    else:
+        return None

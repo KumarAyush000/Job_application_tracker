@@ -1,25 +1,87 @@
-Intelligent Job Application Tracker & Skill Gap Analyzer.
----------------------------------------------------------------------------------------------
+# Skill Tracker CLI Application
 
-Real world problem:
+## Description
 
-Job seekers apply to dozens of companies but struggle with:
+A command-line application for managing personal skills using clean, modular Python code. The application supports full CRUD operations, robust input validation, and persistent storage using JSON.
 
-• Tracking application status (Applied, Interview, Rejected, Offer)
+This project is designed to demonstrate real-world Python programming practices such as separation of concerns, reusable validation logic, and safe user input handling.
 
-• Remembering follow-ups
+---
 
-• Understanding which skills they are missing for the roles they apply to
+## Features
 
-• Improving their profile strategically instead of randomly learning skills
+* Add, edit, and delete skills
+* Index-based selection with safe error handling
+* Reusable input and index validation helpers
+* Persistent data storage using JSON
+* Clean, modular project architecture
 
-This project solves organization + decision-making using Python logic
+---
 
------------------------------------------------------------------------------------------------
+## Technologies Used
 
-Q) Question to solve?
+* Python
+* JSON
+* Modular programming principles
+* Unit-test mindset (logic written to be testable)
 
--> Can I build a system that tracks job applications, analyzes required skills across roles, 
-compares them with the user’s skills, and recommends what to learn next to maximize 
-interview chances?
+---
+
+## How to Run
+
+1. Clone the repository
+2. Navigate to the project directory
+3. Run the application:
+
+   ```bash
+   python main.py
+   ```
+
+---
+
+## Project Structure
+
+```
+.
+├── main.py          # Application entry point
+├── services/        # Business logic and storage handling
+├── validators/      # Reusable input and index validation helpers
+├── data/            # Persistent JSON storage
+└── README.md
+```
+
+---
+
+## Real-World Motivation
+
+Job seekers often apply to many companies simultaneously but struggle with:
+
+* Tracking application status (Applied, Interview, Rejected, Offer)
+* Remembering follow-ups
+* Identifying missing skills for specific roles
+* Improving their profile strategically instead of learning skills randomly
+
+This project addresses the **organization and decision-making problem** using Python logic and structured data handling.
+
+---
+
+## Future Scope (Planned Enhancements)
+
+> Note: The features below are **not yet implemented** and represent planned future enhancements.
+
+* Track job applications and their statuses
+* Analyze required skills across different roles
+* Compare required skills with the user’s current skill set
+* Recommend which skills to learn next to maximize interview chances
+
+---
+
+## What I Learned
+
+* Designing user-friendly CLI workflows
+* Writing reusable and defensive validation logic
+* Managing persistent application state using JSON
+* Structuring a Python project following real-world practices
+
+---
 

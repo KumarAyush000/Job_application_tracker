@@ -1,6 +1,6 @@
-import storage
-import candidate_manager
-import skills_manager
+import core.storage as storage
+import services.candidate_manager as candidate_manager
+import services.skills_manager as skills_manager
 def start_app():
     # 1. Load the data (storage.py handles disk details)
     data = storage.load_json_file()

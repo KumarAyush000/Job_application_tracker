@@ -1,5 +1,5 @@
-import storage
-import validators
+import core.storage as storage
+import validators.validators as validators
 
 def manage_skills(data):
     """Entry point for skill-related actions."""

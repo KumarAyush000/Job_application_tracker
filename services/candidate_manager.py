@@ -1,4 +1,4 @@
-import storage
+import core.storage as storage
 
 def onboard_candidate(data):
     

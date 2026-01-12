@@ -24,3 +24,21 @@ def to_int(input_string):
     # on failure -> none
     else:
         return None
+    
+def get_valid_index(input_value, items):
+    if not input_value:
+        return None
+    
+    if not input_value.isdigit():
+        return None
+    
+    index = int(input_value)
+    
+    if index < 1 or index > len(items):
+        return None
+    
+    # if index is valid reducing it by 1 to make it indexable
+    return index -1
+        
+        
+            

@@ -75,35 +75,27 @@ def edit_skill(data):
         print("Index can not be empty.")
         return
     
-    skill_to_edit = validators.to_int(skill_to_edit)
-    if skill_to_edit is not None:
-          if 0 < skill_to_edit <= len(skills):
-              new_skill_name = input("Enter the new skill name: ").strip().lower()
-              if validators.empty_input_checker(new_skill_name):
-                  print("Skill name can not be empty.")
-                  return
-              
-              # Duplicacy prevention
-              current_index = skill_to_edit -1
-              if new_skill_name in skills and  skills[current_index] != new_skill_name:
-                  print("Skill already exists.")
-                  return
-              
-              # Editing skill and saving it to the system
-              old_skill = skills[current_index]
-              data["skills"][current_index] = new_skill_name
+    index = validators.get_valid_index(skill_to_edit, skills)
+    if index is None:
+        print("Invalid Index.")
+        return
+    # if index is not None    
+    new_skill_name = input("Enter the new skill name: ").strip().lower()
+    if validators.empty_input_checker(new_skill_name):
+        print("Skill name can not be empty.")
+        return         
+    # Duplicacy prevention
+    if new_skill_name in skills and  skills[index] != new_skill_name:
+        print("Skill already exists.")
+        return          
+    # Editing skill and saving it to the system
+    old_skill = skills[index]
+    data["skills"][index] = new_skill_name
+    #save
+    storage.save_json_file(data)
+    print(f"Success: '{old_skill}' updated to '{new_skill_name}' and saved.")   
     
-              #save
-              storage.save_json_file(data)
-              print(f"Success: '{old_skill}' updated to '{new_skill_name}' and saved.")   
-              
-          else:
-              print(f"Index out of range. Choose between 1 and {len(skills)}.")
-    else:
-        print("Please enter a correct input for index.")
-    
-        
-    
+           
 def delete_skill(data):
     """Prompts, validates, and deletes an existing skill."""
     skills = data.get("skills", [])
@@ -119,31 +111,22 @@ def delete_skill(data):
         print("Index can not be empty.")
         return
     
-    skill_to_delete = validators.to_int(skill_to_delete)
-    if skill_to_delete is not None:
-        if 0 < skill_to_delete <= len(skills):
-            current_index = skill_to_delete -1
-            skill_name = skills[current_index]
-            # confirmation
-            confirmation = input(f"Are you sure you want to delete this skill: {skill_name}. Type: ('Y' for yes OR 'N' for no): ").strip().lower()
-            
-            if confirmation == 'n':
-                print("Exiting the deletion process...")
-                return
-            elif confirmation == 'y':
-                # deletion
-                skills.pop(current_index)
-                
-                # save
-                storage.save_json_file(data)
-                
-                print(f"Success: {skill_name} has been deleted.")
-                
-            else:
-                print("Invalid input for the confirmation.")
-                return
-                
-        else:
-              print(f"Index out of range. Choose between 1 and {len(skills)}.")
+    index = validators.get_valid_index(skill_to_delete, skills)
+    if index is None:
+        print("Invalid index.")
+        return
+    # confirmation
+    skill_name = skills[index]
+    confirmation = input(f"Are you sure you want to delete this skill: {skill_name}. Type: ('Y' for yes OR 'N' for no): ").strip().lower()        
+    if confirmation == 'n':
+        print("Exiting the deletion process...")
+        return
+    elif confirmation == 'y':
+        # deletion
+        skills.pop(index)            
+        # save
+        storage.save_json_file(data)            
+        print(f"Success: {skill_name} has been deleted.")            
     else:
-        print("Please enter a correct input for index.")
+        print("Invalid input for the confirmation.")
+        return

@@ -33,8 +33,8 @@ def onboard_candidate(data):
                 return user_input # Default for general text
             
     
-    full_name = get_valid_input("Enter your name: ", "name")
-    email = get_valid_input("Enter your email: ", "email")
+    full_name = get_valid_input("Enter your name ", "name")
+    email = get_valid_input("Enter your email ", "email")
     
     data["candidate"] = {"fullname": full_name,
                          "email": email}

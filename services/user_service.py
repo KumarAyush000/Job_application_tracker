@@ -45,4 +45,5 @@ def create_user(data):
 
     print(f"User created successfully!")
     print(f"Your User ID is: {user_id}")
+    print("Note down your user ID, it will be used for login.")
 

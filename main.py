@@ -22,14 +22,15 @@ def start_app():
     # Dashboard visibility
     while True:
         print("\n----CANDIDATE DASHBOARD----")
-        print("1. Manage Skills")
-        print("2. Exit")
+        print("1. Create User")
+        print("2. Login User")
+        print("3. Exit")
             
         choice = input("Select an option: ").strip()
             
         if choice == "1":
             skills_manager.manage_skills(data)
-        elif choice =="2":
+        elif choice =="":
             print("Exiting Dashboard...")
             break
         else:

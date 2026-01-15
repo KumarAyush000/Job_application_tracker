@@ -21,23 +21,14 @@ def onboard_candidate(data):
                     return user_input
                 print("Error: Please enter a valid name (letters only).")
 
-            elif validation_type == "email":
-                # Simple, human-friendly check: must have '@' and '.'
-                if "@" in user_input and "." in user_input:
-                    # Basic check to ensure characters exist around the symbols
-                    if user_input.find("@") < user_input.rfind("."):
-                        return user_input.lower() # Standardize email to lowercase
-                print("Error: Invalid email format. Must contain '@' and a domain (e.g., '.com').")
         
             else:
                 return user_input # Default for general text
             
     
     full_name = get_valid_input("Enter your name ", "name")
-    email = get_valid_input("Enter your email ", "email")
     
-    data["candidate"] = {"fullname": full_name,
-                         "email": email}
+    data["candidate"] = {"fullname": full_name}
     
     storage.save_json_file(data)
     print(f"Welcome {data['candidate']['fullname']}. Your onboarding is done.")

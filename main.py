@@ -1,40 +1,33 @@
 import core.storage as storage
 import services.candidate_manager as candidate_manager
 import services.skills_manager as skills_manager
-def start_app():
-    # 1. Load the data (storage.py handles disk details)
-    data = storage.load_json_file()
 
-    # 2. THE DIRECT CHECK: This is your binary decision point
-    # We use .get() to ask "Is there data inside this key?"
-    if data.get("candidate") is None:
-        # PATH A: The "fresh start" flow
-        print("CANDIDATE CHECK: Missing (None)")
-        print("ACTION: Starting onboarding process...")
-        candidate_manager.onboard_candidate(data)
-                    
-    else:
-        # PATH B: The "resume" flow
-        print(f"CANDIDATE CHECK: Present ({data['candidate']})")
-        print("ACTION: Skipping onboarding. Loading dashboard...")
-        # load_existing_dashboard(data)
-        
-    # Dashboard visibility
+
+def start_app():
+    data = storage.load_json_file()
     while True:
-        print("\n----CANDIDATE DASHBOARD----")
+        print("\n---- MAIN DASHBOARD ----")
         print("1. Create User")
         print("2. Login User")
         print("3. Exit")
-            
+
         choice = input("Select an option: ").strip()
-            
+
         if choice == "1":
-            skills_manager.manage_skills(data)
-        elif choice =="":
-            print("Exiting Dashboard...")
+            # User creation flow (does NOT log the user in)
+            candidate_manager.create_user(data)
+
+        elif choice == "2":
+            # Login flow
+            pass
+
+        elif choice == "3":
+            print("Exiting application...")
             break
+
         else:
-            print("Invalid choice. Please select 1 or 2.")
+            print("Invalid choice. Please select 1, 2, or 3.")
+
 
 if __name__ == "__main__":
     start_app()

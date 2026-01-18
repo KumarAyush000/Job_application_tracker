@@ -1,8 +1,14 @@
 import core.storage as storage
 import validators.validators as validators
 
-def manage_skills(data):
-    """Entry point for skill-related actions."""
+def manage_skills(data, current_user_id):
+    """
+    HARD GUARD: Prevent access without login
+    """
+    if current_user_id is None:
+        print("Access denied. Please log in to manage skills.")
+        return
+
     while True:
         print("\n--- MANAGE SKILLS ---")
         list_skills(data)
@@ -25,7 +31,6 @@ def manage_skills(data):
             print("Invalid choice.")
 
 
-
 def list_skills(data):
     """Displays current skills from the data object."""
     skills = data.get("skills", [])
@@ -40,6 +45,7 @@ def list_skills(data):
 def add_skill(data):
     """Prompts, validates, and adds a unique skill."""
     new_skill = input("Enter the skill to add: ").strip().lower()
+
     # empty input check
     if validators.empty_input_checker(new_skill):
         print("Input can not be empty")
@@ -59,7 +65,8 @@ def add_skill(data):
     data["skills"].append(new_skill)
     storage.save_json_file(data)
     print(f"Success: '{new_skill}' added and saved.")
-    
+
+
 def edit_skill(data):
     """Prompts, validates, and edits an existing skill."""
     skills = data.get("skills", [])
@@ -79,23 +86,25 @@ def edit_skill(data):
     if index is None:
         print("Invalid Index.")
         return
-    # if index is not None    
+
     new_skill_name = input("Enter the new skill name: ").strip().lower()
     if validators.empty_input_checker(new_skill_name):
         print("Skill name can not be empty.")
         return         
+
     # Duplicacy prevention
-    if new_skill_name in skills and  skills[index] != new_skill_name:
+    if new_skill_name in skills and skills[index] != new_skill_name:
         print("Skill already exists.")
         return          
+
     # Editing skill and saving it to the system
     old_skill = skills[index]
     data["skills"][index] = new_skill_name
-    #save
+
     storage.save_json_file(data)
     print(f"Success: '{old_skill}' updated to '{new_skill_name}' and saved.")   
-    
-           
+
+
 def delete_skill(data):
     """Prompts, validates, and deletes an existing skill."""
     skills = data.get("skills", [])
@@ -115,18 +124,20 @@ def delete_skill(data):
     if index is None:
         print("Invalid index.")
         return
+
     # confirmation
     skill_name = skills[index]
-    confirmation = input(f"Are you sure you want to delete this skill: {skill_name}. Type: ('Y' for yes OR 'N' for no): ").strip().lower()        
+    confirmation = input(
+        f"Are you sure you want to delete this skill: {skill_name}. "
+        "Type: ('Y' for yes OR 'N' for no): "
+    ).strip().lower()
+
     if confirmation == 'n':
         print("Exiting the deletion process...")
         return
     elif confirmation == 'y':
-        # deletion
-        skills.pop(index)            
-        # save
-        storage.save_json_file(data)            
-        print(f"Success: {skill_name} has been deleted.")            
+        skills.pop(index)
+        storage.save_json_file(data)
+        print(f"Success: {skill_name} has been deleted.")
     else:
         print("Invalid input for the confirmation.")
-        return

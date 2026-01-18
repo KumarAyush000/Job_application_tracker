@@ -5,6 +5,7 @@ import services.skills_manager as skills_manager
 
 def start_app():
     data = storage.load_json_file()
+    current_user_id = None  # runtime login state
     while True:
         print("\n---- MAIN DASHBOARD ----")
         print("1. Create User")
@@ -19,7 +20,11 @@ def start_app():
 
         elif choice == "2":
             # Login flow
-            pass
+            user_id = candidate_manager.login_user(data)
+
+            if user_id:
+                current_user_id = user_id
+                skills_manager.manage_skills(data, current_user_id)
 
         elif choice == "3":
             print("Exiting application...")

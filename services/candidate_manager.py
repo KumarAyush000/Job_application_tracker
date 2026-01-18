@@ -32,3 +32,24 @@ def onboard_candidate(data):
     
     storage.save_json_file(data)
     print(f"Welcome {data['candidate']['fullname']}. Your onboarding is done.")
+
+
+def login_user(data):
+    users = data.get("users", {})
+
+    if not users:
+        print("No users found. Please create a user first.")
+        return None
+
+    user_id = input("Enter your User ID (e.g. U001): ").strip()
+
+    if not user_id:
+        print("User ID cannot be empty.")
+        return None
+
+    if user_id not in users:
+        print("Invalid User ID.")
+        return None
+
+    print(f"Login successful. Welcome, {users[user_id]['name']}!")
+    return user_id

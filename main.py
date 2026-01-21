@@ -2,49 +2,55 @@ import core.storage as storage
 import services.candidate_manager as candidate_manager
 import services.skills_manager as skills_manager
 
-
 def start_app():
+    # 1. Load the data
     data = storage.load_json_file()
-    current_user_id = None  # runtime login state
+
+    # 2. Session state
+    current_user_id = None
+
     while True:
         print("\n----CANDIDATE DASHBOARD----")
-
-        if current_user_id is None:
-            print("1. Create User")
-            print("2. Login User")
-            print("3. Exit")
-        else:
-            print(f"Logged in as: {current_user_id}")
-            print("1. Manage Skills")
-            print("2. Logout")
-            print("3. Exit")
+        print("1. Create User")
+        print("2. Login User")
+        print("3. Manage Skills")
+        print("4. Logout")
+        print("5. Exit")
 
         choice = input("Select an option: ").strip()
 
-        # NOT LOGGED IN
-        if current_user_id is None:
-            if choice == "1":
-                candidate_manager.create_user(data)
-            elif choice == "2":
-                current_user_id = candidate_manager.login_user(data)
-            elif choice == "3":
-                print("Exiting application...")
-                break
-            else:
-                print("Invalid choice.")
+        if choice == "1":
+            # Create new user
+            user_id = candidate_manager.create_user(data)
+            if user_id:
+                current_user_id = user_id
+                print(f"Logged in as User ID: {current_user_id}")
 
-        # LOGGED IN
-        else:
-            if choice == "1":
-                skills_manager.manage_skills(data, current_user_id)
-            elif choice == "2":
-                print("Logging out...")
-                current_user_id = None
-            elif choice == "3":
-                print("Exiting application...")
-                break
+        elif choice == "2":
+            # Login existing user
+            user_id = candidate_manager.login_user(data)
+            if user_id:
+                current_user_id = user_id
+                print(f"Logged in as User ID: {current_user_id}")
+
+        elif choice == "3":
+            # HARD GUARD enforced inside skills manager
+            skills_manager.manage_skills(data, current_user_id)
+
+        elif choice == "4":
+            # Logout
+            if current_user_id is None:
+                print("No user is currently logged in.")
             else:
-                print("Invalid choice.")
+                print(f"User {current_user_id} logged out.")
+                current_user_id = None
+
+        elif choice == "5":
+            print("Exiting application...")
+            break
+
+        else:
+            print("Invalid choice. Please select a valid option.")
 
 
 if __name__ == "__main__":

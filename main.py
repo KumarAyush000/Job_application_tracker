@@ -6,7 +6,6 @@ import services.auth_manager as auth_manager
 def start_app():
     # 1. Load the data
     data = storage.load_json_file()
-
     # 2. Session state
     current_user_id = None
 
@@ -20,7 +19,7 @@ def start_app():
         if current_user_id is None:
             print("1. Create User")
             print("2. Login User")
-            print("5. Exit")
+            print("3. Exit")
 
             choice = input("Select an option: ").strip()
 
@@ -30,8 +29,9 @@ def start_app():
 
             elif choice == "2":
                 # Login existing user
-                current_user_id = auth_manager.login_user(data)
-
+                user_id = auth_manager.login_user(data)
+                if user_id:
+                    current_user_id = user_id
             elif choice == "3":
                 print("Exiting application...")
                 break
@@ -50,8 +50,11 @@ def start_app():
                 skills_manager.manage_skills(data, current_user_id)
             
             elif choice == "2":
-                current_user_id = None
-                print("Logged out successfully.")
+                # confirmation
+                confirm = input("Are you sure you wnat to logout? (y/n): ").strip().lower()
+                if confirm == "y":
+                    current_user_id = None
+                    print("Logged out successfully.")
 
             elif choice == "3":
                 print("Exiting application...")

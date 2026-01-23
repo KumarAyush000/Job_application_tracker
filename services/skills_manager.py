@@ -8,10 +8,16 @@ def manage_skills(data, current_user_id):
     if current_user_id is None:
         print("Access denied. Please log in to manage skills.")
         return
+    
+    if "users" not in data or current_user_id not in data["users"]:
+        print("Invalid user session.")
+        return
+    
+    user = data["users"][current_user_id]
 
     while True:
         print("\n--- MANAGE SKILLS ---")
-        list_skills(data)
+        list_skills(user)
         print("\n1. Add Skill")
         print("2. Edit Skill")
         print("3. Delete Skill")
@@ -20,20 +26,20 @@ def manage_skills(data, current_user_id):
         choice = input("Select an option: ").strip()
 
         if choice == "1":
-            add_skill(data)
+            add_skill(user, data)
         elif choice == "2":
-            edit_skill(data)
+            edit_skill(user, data)
         elif choice == "3":
-            delete_skill(data)
+            delete_skill(user, data)
         elif choice == "4":
             break
         else:
             print("Invalid choice.")
 
 
-def list_skills(data):
+def list_skills(user):
     """Displays current skills from the data object."""
-    skills = data.get("skills", [])
+    skills = user.get("skills", [])
     if validators.empty_list_checker(skills):
         print("Your skills list is currently empty.")
     else:
@@ -42,7 +48,7 @@ def list_skills(data):
             print(f"{idx}. {skill}")
 
 
-def add_skill(data):
+def add_skill(user, data):
     """Prompts, validates, and adds a unique skill."""
     new_skill = input("Enter the skill to add: ").strip().lower()
 
@@ -53,23 +59,23 @@ def add_skill(data):
 
     # Validation Rules
     # If "skills" is missing or None, we take it as an empty list []
-    if "skills" not in data or not isinstance(data["skills"], list):
-        data["skills"] = []
+    if "skills" not in user or not isinstance(user["skills"], list):
+        user["skills"] = []
 
     # duplicacy checking
-    if new_skill in data["skills"]:
+    if new_skill in user["skills"]:
         print(f"Error: '{new_skill}' is already in your skills list.")
         return
 
     # Success Path: Update and Save
-    data["skills"].append(new_skill)
+    user["skills"].append(new_skill)
     storage.save_json_file(data)
     print(f"Success: '{new_skill}' added and saved.")
 
 
-def edit_skill(data):
+def edit_skill(user, data):
     """Prompts, validates, and edits an existing skill."""
-    skills = data.get("skills", [])
+    skills = user.get("skills", [])
     
     if not isinstance(skills, list) or validators.empty_list_checker(skills):
         print("Your skills list is currently empty or invalid. Nothing to edit.")
@@ -99,15 +105,15 @@ def edit_skill(data):
 
     # Editing skill and saving it to the system
     old_skill = skills[index]
-    data["skills"][index] = new_skill_name
+    skills[index] = new_skill_name
 
     storage.save_json_file(data)
     print(f"Success: '{old_skill}' updated to '{new_skill_name}' and saved.")   
 
 
-def delete_skill(data):
+def delete_skill(user, data):
     """Prompts, validates, and deletes an existing skill."""
-    skills = data.get("skills", [])
+    skills = user.get("skills", [])
     
     if not isinstance(skills, list) or validators.empty_list_checker(skills):
         print("Your skills list is currently empty or invalid. Nothing to delete.")

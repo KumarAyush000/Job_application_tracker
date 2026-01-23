@@ -1,5 +1,6 @@
 import core.storage as storage
 import validators.validators as validators
+import services.auth_manager as auth_manager
 
 def manage_skills(data, current_user_id):
     """
@@ -9,11 +10,11 @@ def manage_skills(data, current_user_id):
         print("Access denied. Please log in to manage skills.")
         return
     
-    if "users" not in data or current_user_id not in data["users"]:
+    user = auth_manager.get_user(data, current_user_id)
+
+    if user is None:
         print("Invalid user session.")
         return
-    
-    user = data["users"][current_user_id]
 
     while True:
         print("\n--- MANAGE SKILLS ---")

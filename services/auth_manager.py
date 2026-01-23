@@ -11,3 +11,18 @@ def login_user(data):
 
     print("Login successful.")
     return user_id
+
+
+def get_user(data, user_id):
+    if "users" not in data:
+        return None
+    
+    user = data["users"].get(user_id)
+
+    if not isinstance(user, dict):
+        return None
+    
+    if "skills" not in user or not isinstance(user["skills"], list):
+        user["skills"] = []
+
+    return user

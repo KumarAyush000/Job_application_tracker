@@ -1,29 +1,35 @@
-# Skill Tracker CLI Application
+# Skill Tracker CLI Application (Multi-User)
 
 ## Description
 
-A command-line application for managing personal skills using clean, modular Python code. The application supports full CRUD operations, robust input validation, and persistent storage using JSON.
+A command-line application for managing personal skills with **multi-user support**, built using clean, modular Python architecture.  
+The application supports **user creation, login/logout, per-user skill management (CRUD)**, robust input validation, and persistent storage using JSON.
 
-This project is designed to demonstrate real-world Python programming practices such as separation of concerns, reusable validation logic, and safe user input handling.
+This project demonstrates **real-world Python programming practices** such as separation of concerns, session handling, defensive programming, and scalable data modeling.
 
 ---
 
 ## Features
 
-* Add, edit, and delete skills
-* Index-based selection with safe error handling
-* Reusable input and index validation helpers
-* Persistent data storage using JSON
-* Clean, modular project architecture
+- User creation and login system  
+- Session-based access control (login required)  
+- Per-user skill management (scoped data)  
+- Add, edit, and delete skills  
+- Index-based selection with safe error handling  
+- Reusable input and index validation helpers  
+- Persistent data storage using JSON  
+- Clean, modular project architecture  
+- Logic written with a **unit-test mindset**
 
 ---
 
 ## Technologies Used
 
-* Python
-* JSON
-* Modular programming principles
-* Unit-test mindset (logic written to be testable)
+- Python  
+- JSON  
+- Modular programming principles  
+- Defensive programming  
+- CLI-based application design 
 
 ---
 
@@ -43,15 +49,32 @@ This project is designed to demonstrate real-world Python programming practices 
 
 ```
 .
-├── main.py          # Application entry point
-├── services/        # Business logic and storage handling
-├── validators/      # Reusable input and index validation helpers
-├── data/            # Persistent JSON storage
+├── main.py                # Application entry point (dashboard & session handling)
+├── services/
+│   ├── auth_manager.py    # User creation, login, user retrieval
+│   ├── skills_manager.py  # Skill CRUD logic (per user)
+│   └── candidate_manager.py
+├── validators/            # Reusable input and index validation helpers
+├── core/
+│   └── storage.py         # JSON load/save logic
+├── data/
+│   └── data.json          # Persistent storage
 └── README.md
 ```
 
 ---
 
+## Application Flow (High-Level)
+
+- Application loads persisted JSON data
+- Candidate onboarding runs if required
+- User can :
+         - Create a new user
+         - Log in Using User ID
+- Once logged in :
+         - Skills are managed only for that user
+         - Access is bloced if not logged in
+- All changes are saved persistently
 ## Real-World Motivation
 
 Job seekers often apply to many companies simultaneously but struggle with:

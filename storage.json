@@ -3,6 +3,13 @@
         "fullname": "Kumar",
         "email": "xyz@gmail.com"
     },
-    "skills": [],
-    "applications": []
+    "applications": [],
+    "users": {
+        "U001": {
+            "username": "joe smith",
+            "skills": [],
+            "created_at": "2026-01-28"
+        }
+    },
+    "roles": {}
 }

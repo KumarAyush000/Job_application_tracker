@@ -5,36 +5,40 @@ filename = "storage.json"
 
 # Configuring logging to write to a file
 logging.basicConfig(
-    filename='app.log',
+    filename="app.log",
     level=logging.ERROR,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
 def load_json_file():
     """
     Safely attempts to load data from a JSON file.
+    Applies Schema v2 guarantees.
     """
     try:
-        with open(filename, 'r') as file:
+        with open(filename, "r") as file:
             data = json.load(file)
 
-        _ensure_schema_v2(data)
+        # ensures schema compatibility
+        schema_updated = _ensure_schema_v2(data)
+
+        # persists migration if needed
+        if schema_updated:
+            save_json_file(data)
+
         return data
 
     except FileNotFoundError:
-        logging.error("The file 'storage.json' was not found. Creating a new default structure.")
+        logging.error("storage.json not found. Initializing Schema v2.")
 
         default_structure = _default_structure()
-
-        with open(filename, 'w') as file:
-            json.dump(default_structure, file, indent=4)
-
+        save_json_file(default_structure)
         return default_structure
 
     except json.JSONDecodeError as e:
         logging.error(f"Failed to decode JSON: {e}")
 
-        # recover with safe structure
+        # recover safely
         default_structure = _default_structure()
         save_json_file(default_structure)
         return default_structure
@@ -45,7 +49,7 @@ def save_json_file(data):
     Accepts the full data object and overwrites the storage file safely.
     """
     try:
-        with open(filename, 'w') as file:
+        with open(filename, "w") as file:
             json.dump(data, file, indent=4)
 
     except (OSError, IOError) as e:
@@ -60,33 +64,43 @@ def save_json_file(data):
 def _default_structure():
     """
     Default Schema v2 structure.
-    Backward compatible.
     """
     return {
         "candidate": None,
         "users": {},
         "roles": {},
-        "applications": {}
+        "applications": {},
+        "meta": {
+            "schema_version": "2.0"
+        }
     }
 
 
 def _ensure_schema_v2(data):
     """
     Ensures required keys exist for Schema v2.
-    Prevents crashes when upgrading old data.
+    Returns True if mutation occurred.
     """
+    updated = False
+
     if "candidate" not in data:
         data["candidate"] = None
+        updated = True
 
-    # old schema compatibility cleanup
-    if "skills" in data:
-        del data["skills"]
-
-    if "applications" not in data:
-        data["applications"] = {}
-
-    if "users" not in data:
+    if "users" not in data or not isinstance(data["users"], dict):
         data["users"] = {}
+        updated = True
 
-    if "roles" not in data:
+    if "roles" not in data or not isinstance(data["roles"], dict):
         data["roles"] = {}
+        updated = True
+
+    if "applications" not in data or not isinstance(data["applications"], dict):
+        data["applications"] = {}
+        updated = True
+
+    if "meta" not in data:
+        data["meta"] = {"schema_version": "2.0"}
+        updated = True
+
+    return updated

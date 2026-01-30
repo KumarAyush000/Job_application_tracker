@@ -9,6 +9,11 @@
             "username": "joe smith",
             "skills": [],
             "created_at": "2026-01-28"
+        },
+        "U002": {
+            "username": "kumar ayush",
+            "skills": [],
+            "created_at": "2026-01-28"
         }
     },
     "roles": {}
